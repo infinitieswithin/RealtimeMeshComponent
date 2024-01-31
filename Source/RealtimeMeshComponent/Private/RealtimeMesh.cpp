@@ -271,7 +271,9 @@ void URealtimeMesh::InitiateCollisionUpdate(const TSharedRef<TPromise<ERealtimeM
 		PendingBodySetup = nullptr;
 	}
 
-	if (!bForceSyncUpdate && GetWorld() && GetWorld()->IsGameWorld() && CollisionUpdate->Config.bUseAsyncCook)
+	const bool bWorldIsInactive = GetWorld() && !GetWorld()->IsGameWorld();
+	
+	if (!bForceSyncUpdate && !bWorldIsInactive && CollisionUpdate->Config.bUseAsyncCook)
 	{
 		// Copy source info and reset pending
 		PendingBodySetup = NewBodySetup;
